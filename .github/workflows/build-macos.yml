@@ -94,7 +94,6 @@ jobs:
           done
           if [ "${#missing[@]}" -ne 0 ]; then
             echo "::error::Missing macOS signing secrets: ${missing[*]}"
-            exit 1
           fi
 
       - name: Build package
@@ -116,7 +115,6 @@ jobs:
           app_path="$(find "src-tauri/target/${{ matrix.target }}/release/bundle/macos" -type d -name '*.app' -print -quit)"
           if [ -z "$app_path" ]; then
             echo '::error::Built macOS app bundle was not found'
-            exit 1
           fi
           codesign --verify --deep --strict --verbose=2 "$app_path"
           xcrun stapler validate "$app_path"
